@@ -164,7 +164,7 @@ extension UnitSpeed {
 
 extension UnitLength {
     static public let metresPer10km = UnitLength(symbol: "m/10km", converter: UnitConverterLinear(coefficient: 1.0 / (Conversions.metresPerKm * 10)))
-    static public let feetPer10m = UnitLength(symbol: "ft/10mi", converter: UnitConverterLinear(coefficient: Conversions.feetPerMetre / (Conversions.metresPerMile * 10)))
+    static public let feetPer10m = UnitLength(symbol: "ft/10mi", converter: UnitConverterLinear(coefficient: (1.0 / Conversions.feetPerMetre) / (Conversions.metresPerMile * 10)))
 }
 
 extension UnitSpeed {
