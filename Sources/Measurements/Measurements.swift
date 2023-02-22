@@ -236,8 +236,8 @@ class MinsNumberFormatter: NumberFormatter {
     override func string(from number: NSNumber) -> String? {
         let tenthSeconds = Int((number.doubleValue * 600).rounded())        // Convert to tenth seconds
         let (mins, tenths) = tenthSeconds.quotientAndRemainder(dividingBy: 600)
-//        return String(format: "%d:%02d.%1d", mins, tenths / 10, tenths % 10)
-        return String(format: "%d:%02d", mins, tenths / 10)
+        return String(format: "%d:%02d.%1d", mins, tenths / 10, tenths % 10)
+//        return String(format: "%d:%02d", mins, tenths / 10)
     }
     
     override func getObjectValue(_ obj: AutoreleasingUnsafeMutablePointer<AnyObject?>?, for string: String, range rangep: UnsafeMutablePointer<NSRange>?) throws {
