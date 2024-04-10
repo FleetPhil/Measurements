@@ -403,7 +403,7 @@ extension Double {
     }
 }
 
-extension Int {
+extension SignedInteger {
     public func heartRateDisplayString(withUnit: Bool = true) -> String {
         return "\(self)" + (withUnit ? " bpm" : "")
     }
