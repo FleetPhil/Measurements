@@ -28,7 +28,9 @@ public enum MeasurementSystem : Int, Codable, CaseIterable {
 
 public enum SpeedDisplayType: Hashable {
     case running
+    case walking
     case rowing
+    case swimming
     case natural(Int)               // Number of decimal places
 }
 
@@ -58,6 +60,7 @@ public class Measurements: ObservableObject {
     fileprivate var veryShortUnitLength: UnitLength     { return measurementSystem == .metric ? .centimeters : .inches }
     fileprivate var unitInverseSpeed : UnitSpeed        { return measurementSystem == .metric ? .minsPerkm : .minsPerMi }
     fileprivate var unitRowingSpeed: UnitSpeed          { return .minsPer500m }
+    fileprivate var unitSwimmingSpeed: UnitSpeed        { return .minsPer100m }
     fileprivate var unitSpeed : UnitSpeed               { return measurementSystem == .metric ? .kilometersPerHour  : .milesPerHour }
     fileprivate var unitDuration : UnitDuration         { return .hours }
     fileprivate var unitHeight : UnitLength             { return measurementSystem == .metric ? .meters             : .feet }
@@ -171,7 +174,8 @@ extension UnitSpeed {
     static public let minsPerkm        = UnitSpeed(symbol: "/km", converter: TimeForDistanceSpeedConverter(.metric))
     static public let minsPerMi        = UnitSpeed(symbol: "/mi", converter: TimeForDistanceSpeedConverter(.imperial))
     static public let minsPer500m      = UnitSpeed(symbol: "/500m", converter: TimeForDistanceSpeedConverter(.metric, adjustmentFactor: 0.5))
-    
+    static public let minsPer100m      = UnitSpeed(symbol: "/100m", converter: TimeForDistanceSpeedConverter(.metric, adjustmentFactor: 0.1))
+
 }
 
 class TimeForDistanceSpeedConverter: UnitConverter {
@@ -319,8 +323,12 @@ extension Double {
             return self.speedMeasurement.displayFormatter(fractionDigits: digits).string(from: self.speedMeasurement.converted(to: Measurements.shared.unitSpeed))
         case .running:
             return self == 0 ? "" : self.speedMeasurement.minsDisplayFormatter().string(from: self.speedMeasurement.converted(to: Measurements.shared.unitInverseSpeed))
+        case .walking:
+            return self == 0 ? "" : self.speedMeasurement.minsDisplayFormatter().string(from: self.speedMeasurement.converted(to: Measurements.shared.unitInverseSpeed))
         case .rowing:
             return self == 0 ? "" : self.speedMeasurement.minsDisplayFormatter().string(from: self.speedMeasurement.converted(to: Measurements.shared.unitRowingSpeed))
+        case .swimming:
+            return self == 0 ? "" : self.speedMeasurement.minsDisplayFormatter().string(from: self.speedMeasurement.converted(to: Measurements.shared.unitSwimmingSpeed))
         }
     }
       
